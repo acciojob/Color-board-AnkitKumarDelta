@@ -2,6 +2,20 @@
 <html>
 <head>
   <title>Color Board</title>
+  <style>
+    /* Minimal CSS so Cypress can see elements */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(40, 20px);
+      gap: 2px;
+    }
+    .square {
+      width: 20px;
+      height: 20px;
+      background-color: rgb(29, 29, 29); /* default color */
+      transition: background-color 1s ease; /* smooth transition */
+    }
+  </style>
 </head>
 <body>
   <div class="container" id="board"></div>
@@ -14,19 +28,23 @@
       const square = document.createElement("div");
       square.classList.add("square");
 
+      // On hover
       square.addEventListener("mouseenter", () => {
         const color = getRandomColor();
         square.style.backgroundColor = color;
-        square.style.transition = "background-color 1s ease";
+      });
 
+      // On mouseout -> back to default after 1s
+      square.addEventListener("mouseleave", () => {
         setTimeout(() => {
-          square.style.backgroundColor = rgb(29, 29, 29);
+          square.style.backgroundColor = "rgb(29, 29, 29)";
         }, 1000);
       });
 
       container.appendChild(square);
     }
 
+    // Random color generator
     function getRandomColor() {
       const letters = "0123456789ABCDEF";
       let color = "#";
